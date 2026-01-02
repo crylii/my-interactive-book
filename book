@@ -1,0 +1,90 @@
+book/
+├─ index.html
+├─ turn.js
+├─ style.css
+├─ script.js
+└─ images/
+   ├─ page1.png
+   ├─ page2.png
+   ├─ sticker1.png
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Book</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="book">
+  <div class="page">
+    <img src="images/page1.png" class="page-bg">
+
+    <!-- TIKLANAN / SÜRÜKLENEN OBJE -->
+    <img src="images/sticker1.png" class="interactive draggable">
+
+  </div>
+
+  <div class="page">
+    <img src="images/page2.png" class="page-bg">
+  </div>
+</div>
+
+<script src="turn.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+body {
+  background: #111;
+}
+
+#book {
+  width: 800px;
+  height: 500px;
+  margin: auto;
+}
+
+.page {
+  position: relative;
+}
+
+.page-bg {
+  width: 100%;
+  height: 100%;
+}
+
+.interactive {
+  position: absolute;
+  width: 120px;
+  top: 200px;
+  left: 300px;
+  cursor: pointer;
+}
+const item = document.querySelector('.interactive');
+
+item.addEventListener('click', () => {
+  item.classList.toggle('move');
+});
+.move {
+  transform: rotate(20deg) scale(1.2);
+  transition: 0.4s;
+}
+let isDragging = false;
+let offsetX, offsetY;
+
+item.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  offsetX = e.offsetX;
+  offsetY = e.offsetY;
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  item.style.left = e.pageX - offsetX + 'px';
+  item.style.top = e.pageY - offsetY + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
